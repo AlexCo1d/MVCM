@@ -9,8 +9,6 @@ import sys
 import transformers
 
 from Utils.pos_embed import interpolate_pos_embed
-from VQA.pmc_eval import evaluation_pmc
-from model.Former_Llama import Former_Llama
 
 import time
 import datetime
@@ -22,7 +20,6 @@ import utils
 import Utils.misc as misc
 import Utils.lr_sched as lr_sched
 from Dataset import create_dataset
-from model.Former_T5 import Former_T5
 from model.Former_clsvqa import Former_cls
 from vqaTools.vqaEvaluate import compute_vqa_acc
 
@@ -135,11 +132,7 @@ def main(args):
     if args.classifier_vqa:
         model = Former_cls(img_size=args.img_size, vit_type=args.vit_type, freeze_vit=args.freeze_vit,
                            vit_path=args.vit_path if args.checkpoint is None else '', distill=args.distill_model, bert=args.bert_type)
-    else:
-        model = Former_Llama(img_size=args.img_size, llm_model=args.LLM_path,distill=args.distill_model,
-                             vit_path=args.vit_path if args.checkpoint is None else '',
-                             freeze_vit=args.freeze_vit, is_lora=args.is_lora, instruct=True,
-                             max_txt_len=384 if args.dataset_use == 'pmcvqa' else 256, vit_type=args.vit_type)
+
     misc.model_structure(model)
     model = model.to(device)
     # print(model)
@@ -147,22 +140,14 @@ def main(args):
     # eff_batch_size = args.batch_size * misc.get_world_size()
 
     # set group:
-    if not args.classifier_vqa:
-        proj = list(map(id, model.llm_proj.parameters()))
-        proj_params = filter(lambda x: id(x) in proj, model.parameters())
-        rest_params = filter(lambda x: id(x) not in proj, model.parameters())
-        params = [
-            {'params': proj_params, 'lr': args.lr * 3},
-            {'params': rest_params}
-        ]
-    else:
-        proj = list(map(id, model.text_decoder.parameters()))
-        proj_params = filter(lambda x: id(x) in proj, model.parameters())
-        rest_params = filter(lambda x: id(x) not in proj, model.parameters())
-        params = [
-            {'params': proj_params, 'lr': args.lr * 3},
-            {'params': rest_params}
-        ]
+
+    proj = list(map(id, model.text_decoder.parameters()))
+    proj_params = filter(lambda x: id(x) in proj, model.parameters())
+    rest_params = filter(lambda x: id(x) not in proj, model.parameters())
+    params = [
+        {'params': proj_params, 'lr': args.lr * 3},
+        {'params': rest_params}
+    ]
 
     optimizer = torch.optim.AdamW(params=params, lr=args.lr, weight_decay=0.05) \
         if not args.deepspeed else None
