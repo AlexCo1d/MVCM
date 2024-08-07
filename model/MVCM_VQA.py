@@ -5,7 +5,7 @@ import numpy as np
 from transformers import BertTokenizer
 import torch.distributed as dist
 
-from model.archi_Former import concat_all_gather
+from model.MVCM_Archi import concat_all_gather
 from model.submodule.BLIP.BLIPBase import (Blip2Base, disabled_train)
 
 """
@@ -21,7 +21,7 @@ import torch.nn as nn
 from model.submodule.bert.xbert import BertConfig, BertModel, BertLMHeadModel
 
 
-class Former_cls(Blip2Base):
+class MVCM_VQA(Blip2Base):
 
     def __init__(
             self,

@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 import torch
-from model import Former_Retrieval
+from model import MVCM_Retrieval
 import Utils.misc as misc
 from Retrieval.retrieval_dataset import retrieval_dataset, retrieval_dataset_ROCO
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
@@ -38,7 +38,7 @@ def main():
     else:
         dataset = retrieval_dataset_ROCO(args.data_path, args=args)
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=False, num_workers=4, pin_memory=True)
-    model = Former_Retrieval.Former_RT(img_size= args.img_size, vit_type=args.vit_type, bert=args.bert_type)
+    model = Former_Retrieval.MVCM_RT(img_size= args.img_size, vit_type=args.vit_type, bert=args.bert_type)
     model = model.to(device)
     model_without_ddp = model
     if args.distributed:

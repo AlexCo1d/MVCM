@@ -1,11 +1,10 @@
 import pandas as pd
-import json
 import os
 import torchvision.transforms as transforms
 from PIL import Image
 from torch.utils.data import Dataset
 
-from Utils.pretrain_datasets import pre_caption
+from pretrain_datasets import pre_caption
 
 
 class retrieval_dataset(Dataset):

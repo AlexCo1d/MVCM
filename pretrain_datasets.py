@@ -13,7 +13,7 @@ import random
 
 from torchvision.transforms import InterpolationMode
 
-from .randaugment import RandomAugment
+from Utils.randaugment import RandomAugment
 
 
 def pil_loader(path: str) -> Image.Image:
@@ -341,5 +341,5 @@ def get_pretrain_dataset(args):
         ROCO = ROCODataset(data_root=os.path.join(fpath, 'roco-dataset'), transform=transform, mv=args.mv)
         return ConcatDataset([MIMIC, MediCaT, ROCO])
     else:
-        return ROCODataset(data_root=os.path.join(fpath, 'roco-dataset'), transform=transform, mv=args.mv, split='test')
+        return MediCaTDataset(data_root=os.path.join(fpath, 'medicat'), transform=transform, mv=args.mv)
 

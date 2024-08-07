@@ -20,7 +20,7 @@ import utils
 import Utils.misc as misc
 import Utils.lr_sched as lr_sched
 from Dataset import create_dataset
-from model.Former_clsvqa import Former_cls
+from model.MVCM_VQA import MVCM_VQA
 from vqaTools.vqaEvaluate import compute_vqa_acc
 
 
@@ -130,8 +130,8 @@ def main(args):
     #### Creating Model ####
     print("Creating model")
     if args.classifier_vqa:
-        model = Former_cls(img_size=args.img_size, vit_type=args.vit_type, freeze_vit=args.freeze_vit,
-                           vit_path=args.vit_path if args.checkpoint is None else '', distill=args.distill_model, bert=args.bert_type)
+        model = MVCM_VQA(img_size=args.img_size, vit_type=args.vit_type, freeze_vit=args.freeze_vit,
+                         vit_path=args.vit_path if args.checkpoint is None else '', distill=args.distill_model, bert=args.bert_type)
 
     misc.model_structure(model)
     model = model.to(device)

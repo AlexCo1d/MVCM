@@ -20,18 +20,13 @@ from pathlib import Path
 import torch
 import torch.backends.cudnn as cudnn
 from torch.utils.tensorboard import SummaryWriter
-import torchvision.transforms as transforms
-import torchvision.datasets as datasets
-from torchvision.transforms.functional import InterpolationMode
-
-import timm.optim.optim_factory as optim_factory
 
 import Utils.lr_decay
 import Utils.misc as misc
-from Utils.pretrain_datasets import get_pretrain_dataset
+from pretrain_datasets import get_pretrain_dataset
 from Utils.misc import NativeScalerWithGradNormCount as NativeScaler
 
-from model.archi_Former import MM_Former
+from model.MVCM_Archi import MVCM
 
 from engine_pretrain import train_one_epoch
 
@@ -173,8 +168,8 @@ def main(args):
     )
 
     # define the model
-    model = MM_Former(img_size=args.img_size,local_contrastive_loss=True, vit_path=args.vit_path if args.resume is None else '',vit_type=args.vit_type,
-                      freeze_vit=True if args.vit_type == 'eva_vit' else False, mv=args.mv, distill=args.distill_model, bert=args.bert_type)
+    model = MVCM(img_size=args.img_size, local_contrastive_loss=True, vit_path=args.vit_path if args.resume is None else '', vit_type=args.vit_type,
+                 freeze_vit=True if args.vit_type == 'eva_vit' else False, mv=args.mv, distill=args.distill_model, bert=args.bert_type)
     # print
     misc.model_structure(model)
 

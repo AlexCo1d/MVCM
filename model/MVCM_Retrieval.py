@@ -7,7 +7,7 @@ from functools import partial
 import torch.nn as nn
 from transformers import BertTokenizer
 
-from model.archi_Former import MM_Former
+from model.MVCM_Archi import MVCM
 import torch.distributed as dist
 from Utils.misc import is_dist_avail_and_initialized, get_world_size, get_rank, MetricLogger
 
@@ -15,7 +15,7 @@ import logging
 import time
 
 
-class Former_RT(MM_Former):
+class MVCM_RT(MVCM):
     """
     BLIP Image-Text Matching (ITM) model.
     Supported model types:

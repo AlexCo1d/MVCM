@@ -2,7 +2,7 @@
 only for testing
 
 '''
-from model.Former_clsvqa import Former_cls
+from model.MVCM_VQA import MVCM_VQA
 
 import re
 
@@ -187,7 +187,7 @@ import numpy as np
 # i=topk_ids[0][pred_idx]
 # print(i)
 
-from model.archi_Former import MM_Former
+from model.MVCM_Archi import MVCM
 import torch
 from model.archi import MM
 from functools import partial
@@ -199,7 +199,7 @@ import torch.nn as nn
 #     'text': text
 #
 # }
-model = Former_cls(
+model = MVCM_VQA(
             img_size=384,
             drop_path_rate=0,
             use_grad_checkpoint=False,

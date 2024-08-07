@@ -24,7 +24,7 @@ from model.submodule.BLIP.BlipOutput import BlipOutput, BlipOutputFeatures
 from model.submodule.vit.vit import Block
 
 
-class MM_Former(Blip2Base):
+class MVCM(Blip2Base):
     def __init__(self, img_size=224,
                  embed_dim=768,
                  drop_path_rate=0,
