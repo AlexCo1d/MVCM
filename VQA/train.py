@@ -198,10 +198,6 @@ def main(args):
 
             utils.cosine_lr_schedule(optimizer, epoch, args.epochs, args.lr, args.min_lr)
 
-            #####
-            # if epoch >= args.epochs - 3:
-            #     train(model, test_loader, optimizer, epoch, device, args)
-
             train(model, train_loader, optimizer, epoch, device, args)
 
             if utils.is_main_process() and args.output_dir:
