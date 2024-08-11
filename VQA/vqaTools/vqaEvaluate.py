@@ -106,7 +106,7 @@ def compute_vqa_acc(vqa_results: [], epoch=0, args=None, dataloader= None):
         gt = pre_answer(gt)
         if type == 'OPEN':
             # print('pred:', pred, ' gt:', gt, ' sim:', sim)
-            open_list.append(int(pred in gt))
+            open_list.append(int(pred == gt))
         else:
             closed_list.append(int(gt == pred))
 
